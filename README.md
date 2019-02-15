@@ -1,5 +1,8 @@
 # ember-async-to-generator
 
+[![npm version](https://badge.fury.io/js/ember-async-to-generator.svg)](https://badge.fury.io/js/ember-async-to-generator)
+[![Build Status](https://travis-ci.com/xg-wang/ember-async-to-generator.svg?branch=master)](https://travis-ci.com/xg-wang/ember-async-to-generator)
+
 ## Installation
 
 ```
