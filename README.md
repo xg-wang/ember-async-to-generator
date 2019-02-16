@@ -19,6 +19,8 @@ The babel plugin defaults to use native `Promise` which breaks in old browsers.
 The transpiled `async/await` code needs [regenerator-runtime](http://facebook.github.io/regenerator/).
 This addon will check [target browsers](https://guides.emberjs.com/release/configuring-ember/build-targets/), [babel options](https://github.com/babel/ember-cli-babel#options) to properly import the asset (~2.5kb after gzip).
 
+The browsers list support generator and async-await from babel can be found at [babel-preset-env/data/plugins.json](https://github.com/babel/babel/blob/master/packages/babel-preset-env/data/plugins.json).
+
 ## What about ember-maybe-import-regenerator(-for-testing)?
 
 [ember-maybe-import-regenerator](https://github.com/machty/ember-maybe-import-regenerator) and [ember-maybe-import-regenerator-for-testing](https://github.com/ember-cli/ember-maybe-import-regenerator-for-testing) only imports the regenerator assets, but your app will still be using native Promise.
