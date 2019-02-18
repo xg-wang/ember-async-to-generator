@@ -3325,9 +3325,9 @@ ember-qunit@^4.3.0:
     qunit "^2.9.1"
 
 ember-resolver@^5.0.1:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/ember-resolver/-/ember-resolver-5.1.0.tgz#a498418b66ff9be64709d7de069ce827649b6459"
-  integrity sha512-jE4J5JG3rEFv4CckM6b2EM7TY9SkqJ3/lNNWnH4hn087BbmEPzDYvb8Li7LtYgiYU5QEEwZWi/7dFEnSp0DyOg==
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/ember-resolver/-/ember-resolver-5.1.1.tgz#ffc2b12e9a50b56f9f48f8c239b10d00a142dc42"
+  integrity sha512-P5Kqr+6HImxy2GXpYOf82WiNbhc2ZLohiIjaVLwF0AMqNLs1tU1qQhDHbERjrvaPI4MJj+yG65o29X/1Qo6f4Q==
   dependencies:
     "@glimmer/resolver" "^0.4.1"
     babel-plugin-debug-macros "^0.1.10"
