@@ -33,3 +33,7 @@ export function asyncToGenerator(fn) {
     });
   };
 }
+
+export default {
+  asyncToGenerator
+};

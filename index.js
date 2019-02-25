@@ -4,20 +4,26 @@ const path = require('path');
 const VersionChecker = require('ember-cli-version-checker');
 const Funnel = require('broccoli-funnel');
 const TransformAsyncToGenerator = 'transform-async-to-generator';
-const PluginTransformAsyncToGenerator = `@babel/plugin-${TransformAsyncToGenerator}`;
 
 module.exports = {
   name: require('./package').name,
 
   init() {
     this._super.init.apply(this, arguments);
-    this.checker = new VersionChecker(this);
+    const checker = new VersionChecker(this.project);
+    this._regeneratorFromOtherAddons =
+      checker.for('ember-maybe-import-regenerator-for-testing').exists() ||
+      checker.for('ember-maybe-import-regenerator').exists();
+    this._isBabel7 = checker.for('ember-cli-babel').gte('7.0.0');
+    this._asyncPluginName = this._isBabel7
+      ? `@babel/plugin-${TransformAsyncToGenerator}`
+      : `babel-plugin-${TransformAsyncToGenerator}`;
   },
 
   included() {
     this._super.included.apply(this, arguments);
     const app = this._findApp();
-    const babelAddon = this.addons.find(
+    const babelAddon = this.project.addons.find(
       addon => addon.name === 'ember-cli-babel'
     );
     if (!babelAddon) {
@@ -28,7 +34,7 @@ module.exports = {
     }
     if (!babelAddon.isPluginRequired(TransformAsyncToGenerator)) {
       this.ui.writeInfoLine(
-        `[ember-async-to-generator] ${PluginTransformAsyncToGenerator} is not needed, opting out of transpilation`
+        `[ember-async-to-generator] ${TransformAsyncToGenerator} is not needed, opting out of transpilation`
       );
       return;
     }
@@ -38,25 +44,38 @@ module.exports = {
     app.options.babel = app.options.babel || {};
     const plugins = (app.options.babel.plugins =
       app.options.babel.plugins || []);
-    const hasPlugin = plugins.find(
-      p => p[0] === PluginTransformAsyncToGenerator
+    const hasAsyncPlugin = plugins.find(p =>
+      p[0].match(new RegExp(TransformAsyncToGenerator))
     );
-    if (!hasPlugin) {
-      plugins.push([
-        PluginTransformAsyncToGenerator,
-        {
-          module: 'ember-async-to-generator',
-          method: 'asyncToGenerator'
-        }
-      ]);
-    } else {
+    if (hasAsyncPlugin) {
       this.ui.writeWarnLine(
-        `[ember-async-to-generator] you have already listed ${PluginTransformAsyncToGenerator} in babel plugins`
+        `[ember-async-to-generator] you have already listed ${
+          this._asyncPluginName
+        } in babel plugins`
       );
+    } else {
+      const moduleMethodOption = {
+        module: 'ember-async-to-generator/helper',
+        method: 'asyncToGenerator'
+      };
+      if (this._isBabel7) {
+        plugins.push([this._asyncPluginName, moduleMethodOption]);
+      } else {
+        const moduleMethodPluginName = 'transform-async-to-module-method';
+        const hasModuleMethodPlugin = plugins.find(p =>
+          p[0].match(new RegExp(moduleMethodPluginName))
+        );
+        if (!hasModuleMethodPlugin) {
+          plugins.push([moduleMethodPluginName, moduleMethodOption]);
+        } else {
+          this.ui.writeWarnLine(
+            `[ember-async-to-generator] you have already listed ${moduleMethodPluginName} in babel plugins`
+          );
+        }
+      }
     }
 
-    // Should we import regenerator runtime asset
-    if (this._hasOtherAddons()) {
+    if (this._regeneratorFromOtherAddons) {
       return;
     }
     const babelOptions = app.options.babel;
@@ -76,8 +95,8 @@ module.exports = {
     }
   },
 
-  treeForVendor: function() {
-    if (this._hasOtherAddons()) {
+  treeForVendor() {
+    if (this._regeneratorFromOtherAddons) {
       return;
     }
     const regeneratorRuntimePath = path.dirname(
@@ -88,13 +107,6 @@ module.exports = {
       destDir: 'regenerator-runtime',
       files: ['runtime.js']
     });
-  },
-
-  _hasOtherAddons() {
-    return (
-      this.checker.for('ember-maybe-import-regenerator-for-testing').exists() ||
-      this.checker.for('ember-maybe-import-regenerator').exists()
-    );
   },
 
   _findApp() {
