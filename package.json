@@ -10,6 +10,7 @@
   "author": "Thomas Wang <wangxgwxg@gmail.com>",
   "scripts": {
     "build": "ember build",
+    "changelog": "lerna-changelog",
     "lint:hbs": "ember-template-lint .",
     "lint:js": "eslint .",
     "start": "ember serve",
@@ -46,6 +47,7 @@
     "eslint": "^5.13.0",
     "eslint-plugin-ember": "^6.2.0",
     "eslint-plugin-node": "^8.0.1",
+    "lerna-changelog": "^0.8.2",
     "loader.js": "^4.7.0",
     "qunit-dom": "^0.8.0"
   },
