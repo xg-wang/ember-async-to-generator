@@ -17,6 +17,7 @@
     "test:all": "ember try:each"
   },
   "dependencies": {
+    "babel-plugin-transform-async-to-module-method": "^6.24.1",
     "broccoli-funnel": "^2.0.2",
     "ember-cli-babel": "^7.1.2",
     "ember-cli-version-checker": "^3.0.1",
