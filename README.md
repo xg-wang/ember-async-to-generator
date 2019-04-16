@@ -21,6 +21,12 @@ This addon will check [target browsers](https://guides.emberjs.com/release/confi
 
 The browsers list support generator and async-await from babel can be found at [babel-preset-env/data/plugins.json](https://github.com/babel/babel/blob/master/packages/babel-preset-env/data/plugins.json).
 
+## Can I only include the transform for my addon's tests?
+
+Yes, adding `ember-async-to-generator` to your addon's `devDependencies` will not affect host apps.
+
+_Notice_ your addon's local development will also have async/await available. To avoid async/await code from addon, you can [add lint rules](https://www.rwjblue.com/2017/10/30/async-await-configuration-adventure/#use-regenerator-in-tests-only) to make sure async/await is test only.
+
 ## What about ember-maybe-import-regenerator(-for-testing)?
 
 [ember-maybe-import-regenerator](https://github.com/machty/ember-maybe-import-regenerator) and [ember-maybe-import-regenerator-for-testing](https://github.com/ember-cli/ember-maybe-import-regenerator-for-testing) only imports the regenerator assets, but your app will still be using native Promise.
