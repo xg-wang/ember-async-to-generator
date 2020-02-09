@@ -31,7 +31,7 @@ async function buildFixture(fixture) {
     stdio: "inherit",
     cwd: tmpPath
   });
-  await execa("yarn", ["install", "--no-lockfile"], { cwd: tmpPath, stdio: "inherit" });
+  await execa("yarn", ["install", "--no-lockfile", "--ignore-engines"], { cwd: tmpPath, stdio: "inherit" });
 
   await execa("yarn", ["build"], {
     stdio: "inherit",

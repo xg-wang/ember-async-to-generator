@@ -14,7 +14,8 @@
     "lint:hbs": "ember-template-lint .",
     "lint:js": "eslint .",
     "start": "ember serve",
-    "test:mocha": "DEBUG=test* mocha",
+    "test:mocha": "mocha",
+    "test:mocha:debug": "DEBUG=test* mocha",
     "test": "ember test",
     "test:all": "ember try:each"
   },
@@ -52,7 +53,7 @@
     "eslint": "^6.0.1",
     "eslint-plugin-ember": "^7.7.1",
     "eslint-plugin-node": "^11.0.0",
-    "execa": "^4.0.0",
+    "execa": "^3.4.0",
     "fs-extra": "^8.1.0",
     "lerna-changelog": "^0.8.2",
     "loader.js": "^4.7.0",
@@ -65,5 +66,8 @@
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
+  },
+  "volta": {
+    "node": "8.17.0"
   }
 }

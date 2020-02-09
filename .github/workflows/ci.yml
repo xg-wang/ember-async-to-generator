@@ -42,6 +42,8 @@ jobs:
         if: matrix.os != 'windows-latest'
         run: yarn lint:js
       - name: test
+        env:
+          DEBUG: "test*"
         run: yarn test:mocha
 
   floating-dependencies:

@@ -38,17 +38,17 @@ async function buildAppWithNestedAddon() {
     cwd: addonTmp
   });
   await execa("yarn", ["link"], { stdio: "inherit", cwd: addonTmp })
-  await execa("yarn", ["install", "--no-lockfile"], { cwd: addonTmp, stdio: "inherit" });
+  await execa("yarn", ["install", "--no-lockfile", "--ignore-engines"], { cwd: addonTmp, stdio: "inherit" });
 
   mutatePkg(appTmp, (pkgJson) => {
     pkgJson.devDependencies["dummy-addon"] = "../dummy-addon";
     return pkgJson;
   })
-  // await execa("yarn", ["link", "dummy-addon"], {
-  //   stdio: "inherit",
-  //   cwd: appTmp
-  // });
-  await execa("yarn", ["install", "--no-lockfile"], { cwd: appTmp, stdio: "inherit" });
+  await execa("yarn", ["link", "dummy-addon"], {
+    stdio: "inherit",
+    cwd: appTmp
+  });
+  await execa("yarn", ["install", "--no-lockfile", "--ignore-engines"], { cwd: appTmp, stdio: "inherit" });
 
   await execa("yarn", ["build"], {
     stdio: "inherit",
@@ -69,7 +69,7 @@ async function tearDownFixture({appTmp, addonTmp}) {
 }
 
 describe("Nested Addon", function() {
-  this.timeout(200 * 1000);
+  this.timeout(400 * 1000);
 
   let appTmp;
   let addonTmp;
@@ -78,14 +78,18 @@ describe("Nested Addon", function() {
     await tearDownFixture({appTmp, addonTmp});
   });
 
-  it("transforms async to use our helper in app's vendor", async function() {
-    tmpPaths = await buildAppWithNestedAddon();
+  it("transforms async to use our helper in app's vendor but not app code", async function() {
+    let tmpPaths = await buildAppWithNestedAddon();
     appTmp = tmpPaths.appTmp;
     addonTmp = tmpPaths.addonTmp;
     let appJs = path.join(appTmp, "dist", "assets", "dummy-app.js");
     expect(appJs)
       .to.be.a.file()
-      .with.contents.that.match(/helper\.asyncToGenerator/);
+      .and.not.have.contents.that.match(/helper\.asyncToGenerator/);
+    let vendorJs = path.join(appTmp, "dist", "assets", "vendor.js");
+    expect(vendorJs)
+      .to.be.a.file()
+      .have.contents.that.match(/helper\.asyncToGenerator/);
   });
 });
 
