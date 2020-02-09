@@ -45,7 +45,7 @@ module.exports = {
         module: "ember-async-to-generator/helper",
         method: "asyncToGenerator"
       };
-      addPlugin(parent, PluginName, moduleMethodOption);
+      addPlugin(parent, [require.resolve(PluginName), moduleMethodOption]);
     }
 
     if (this._regeneratorFromOtherAddons) {

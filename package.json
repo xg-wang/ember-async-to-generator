@@ -14,11 +14,11 @@
     "lint:hbs": "ember-template-lint .",
     "lint:js": "eslint .",
     "start": "ember serve",
+    "test:mocha": "DEBUG=test* mocha",
     "test": "ember test",
     "test:all": "ember try:each"
   },
   "dependencies": {
-    "babel-plugin-transform-async-to-module-method": "^6.24.1",
     "broccoli-funnel": "^2.0.2",
     "ember-cli-babel": "^7.17.2",
     "ember-cli-babel-plugin-helpers": "^1.1.0",
@@ -29,6 +29,9 @@
   "devDependencies": {
     "@ember/optional-features": "^1.2.0",
     "broccoli-asset-rev": "^3.0.0",
+    "chai": "^4.2.0",
+    "chai-fs": "^2.0.0",
+    "debug": "^4.1.1",
     "ember-cli": "~3.15.2",
     "ember-cli-dependency-checker": "^3.2.0",
     "ember-cli-htmlbars": "^4.0.9",
@@ -49,9 +52,13 @@
     "eslint": "^6.0.1",
     "eslint-plugin-ember": "^7.7.1",
     "eslint-plugin-node": "^11.0.0",
+    "execa": "^4.0.0",
+    "fs-extra": "^8.1.0",
     "lerna-changelog": "^0.8.2",
     "loader.js": "^4.7.0",
-    "qunit-dom": "^0.9.0"
+    "mocha": "^7.0.1",
+    "qunit-dom": "^0.9.0",
+    "tmp": "^0.1.0"
   },
   "engines": {
     "node": "8.* || >= 10.*"
