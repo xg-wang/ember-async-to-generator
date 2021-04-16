@@ -58,7 +58,7 @@
     "eslint-plugin-node": "^11.0.0",
     "execa": "^3.4.0",
     "fs-extra": "^8.1.0",
-    "lerna-changelog": "^0.8.2",
+    "lerna-changelog": "^1.0.1",
     "loader.js": "^4.7.0",
     "mocha": "^7.0.1",
     "qunit-dom": "^0.9.0",
